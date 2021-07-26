@@ -1,0 +1,7 @@
+flask
+flask-session
+flask-mail
+tempfile
+functools
+urllib
+sqlite3
