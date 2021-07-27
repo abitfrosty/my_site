@@ -12,27 +12,26 @@ def return_figures():
 
     """
     
-    df_train = pd.read_csv('extras/plotly_titanic/titanic_train.csv')
+    df_train = pd.read_csv('/var/www/webApp/webApp/extras/plotly_titanic/titanic_train.csv')
     
     
-    # first chart plots arable land from 1990 to 2015 in top 10 economies 
-    # as a line chart
+    # First chart plots Passenger Age distribution
+    age_data = df_train[['Age']]
+    x = age_data['Age'].to_list()
     
     graph_one = []    
     graph_one.append(
-      go.Scatter(
-      x = [0, 1, 2, 3, 4, 5],
-      y = [0, 2, 4, 6, 8, 10],
-      mode = 'lines'
+      go.Histogram(
+      x = x
       )
     )
 
-    layout_one = dict(title = 'Chart One',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label'),
+    layout_one = dict(title = 'Passenger Age distribution',
+                xaxis = dict(title = 'Passenger Age'),
+                yaxis = dict(title = 'Passenger Count'),
                 )
 
-# second chart plots ararble land for 2015 as a bar chart    
+    # Second chart plots Passenger Class distribution
     
     pclass_data = df_train[['Pclass', 'PassengerId']].groupby(by='Pclass').count().rename(columns={'PassengerId': 'Count'}).T.iloc[0]
     x = pclass_data.index.to_list()
@@ -52,22 +51,23 @@ def return_figures():
                 )
 
 
-# third chart plots percent of population that is rural from 1990 to 2015
+    # Third chart plots Passenger Sex distribution
+    
+    sex_data = df_train[['Sex']].groupby('Sex').size()
+    values = sex_data.to_list()
+    labels = sex_data.index.to_list()
+    
     graph_three = []
     graph_three.append(
-      go.Scatter(
-      x = [5, 4, 3, 2, 1, 0],
-      y = [0, 2, 4, 6, 8, 10],
-      mode = 'lines'
+      go.Pie(
+      values = values,
+      labels = labels
       )
     )
 
-    layout_three = dict(title = 'Chart Three',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label')
-                       )
+    layout_three = dict(title = 'Passenger Sex distribution')
     
-# fourth chart shows rural population vs arable land
+    # Fourth chart shows distribution of embarkation by price
     
     emb_fare_data = df_train[['Embarked', 'Fare']]
     x = emb_fare_data['Embarked'].to_list()
@@ -87,7 +87,7 @@ def return_figures():
                 yaxis = dict(title = 'Passenger Fare (British pound)'),
                 )
     
-    # append all charts to the figures list
+    # Append all charts to the figures list
     figures = []
     figures.append(dict(data=graph_one, layout=layout_one))
     figures.append(dict(data=graph_two, layout=layout_two))
