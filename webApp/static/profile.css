@@ -1,0 +1,44 @@
+.form-floating textarea.form-control {
+    height: initial;
+}
+
+.form-floating label {
+    text-align: initial;
+    transition: 0.15s;
+}
+
+.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+opacity: 1;
+color: rgba(0, 0, 0, 0.7);
+background-color: #fff;
+height: auto;
+padding: 0px;
+padding: 0px 0px 0px 10px;
+width: 90%;
+transform: scale(0.982) translateY(0.045rem) translateX(0.1rem);
+border-radius: 5px 0 0 0;
+}
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+opacity: 1;
+color: rgba(0, 0, 0, 0.7);
+background-color: #fff;
+height: auto;
+padding: 0px 0px 0px 10px;
+width: 90%;
+transform: scale(0.982) translateY(0.045rem) translateX(0.1rem);
+border-radius: 5px 0 0 0;
+}
+.form-floating > .form-control:-webkit-autofill ~ label {
+opacity: 1;
+color: rgba(0, 0, 0, 0.7);
+background-color: #fff;
+height: auto;
+padding: 0px;
+padding: 0px 0px 0px 10px;
+width: 90%;
+transform: scale(0.982) translateY(0.045rem) translateX(0.1rem);
+border-radius: 5px 0 0 0;
+}
+
