@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plotly_titanic.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="{{ url_for('static', filename='plotly_titanic.css') }}" rel="stylesheet">
+{% endblock %}
+{% block title %}Main page{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <h1>This is Plotly graphs presentation</h1>
+        </div>
+        
+        <div class="row">
+        
+            <div class="container-fluid mt-5 mb-5">
+                
+                <div class="row">
+                    <div class="col-6" id="{{ids[0]}}"></div>
+                    <div class="col-6" id="{{ids[1]}}"></div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6" id="{{ids[2]}}"></div>
+                    <div class="col-6" id="{{ids[3]}}"></div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+    <script type="text/javascript">
+        var figures = {{figuresJSON | safe}};
+        var ids = {{ids | safe}};
+        for(var i in figures) {
+            Plotly.plot(ids[i],
+                figures[i].data,
+                figures[i].layout || {});
+        }
+    </script>
+    
+{% endblock %}
+

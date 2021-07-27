@@ -8,7 +8,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from contextlib import closing
 
+import plotly
+
 from webApp.helpers import apology, login_required, admin_required, represents_int
+from webApp.helpers_plotly import return_figures
 from webApp.tests import generate_examples, calculate_weights, duplicate_examples
 from webApp.app_config import app_config
 
@@ -466,15 +469,31 @@ def about():
     return render_template("about.html")
 
 
+@app.route("/plotly_titanic")
+def plotly_titanic():
+
+    figures = return_figures()
+
+    # plot ids for the html id tag
+    ids = ['plotly{}'.format(i) for i, _ in enumerate(figures)]
+
+    # Convert the plotly figures to JSON for javascript in html template
+    figuresJSON = json.dumps(figures, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template("plotly_titanic.html", ids=ids, figuresJSON=figuresJSON)
+
+
 @app.route("/semenov")
 def semenov():
     return render_template("semenov.html")
+
 
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
 
 def db_execute(db, query, args=(), fetchone=True):
     """
@@ -490,6 +509,7 @@ def db_execute(db, query, args=(), fetchone=True):
                     return cursor.lastrowid
                 rv = cursor.fetchall()
                 return (rv[0] if rv else None) if fetchone else rv
+
 
 def db_executemany(db, query, args=()):
     """
